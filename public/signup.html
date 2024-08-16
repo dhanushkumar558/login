@@ -4,18 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+    </style>
 </head>
 <body>
     <h1>Sign Up</h1>
-    <form action="/signup" method="post">
+    <form id="signupForm" action="/signup" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <span id="nameError" class="error"></span>
+        <br>
+        <label for="mobile">Mobile:</label>
+        <input type="tel" id="mobile" name="mobile" required>
+        <span id="mobileError" class="error"></span>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <span id="emailError" class="error"></span>
+        <br>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
+        <span id="usernameError" class="error"></span>
         <br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <br>
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+        <span id="passwordError" class="error"></span>
+        <br>
         <button type="submit">Sign Up</button>
+        <span id="formMessage" class="success"></span>
     </form>
     <a href="/login.html">Already have an account? Login here.</a>
+
+    <script>
+        // Function to display error messages
+        function displayError(fieldId, message) {
+            document.getElementById(fieldId + 'Error').innerText = message;
+        }
+
+        // Function to clear all error messages
+        function clearErrors() {
+            document.querySelectorAll('.error').forEach(element => element.innerText = '');
+            document.getElementById('formMessage').innerText = '';
+        }
+
+        // Display error messages based on query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessages = {
+            'name': urlParams.get('nameError'),
+            'mobile': urlParams.get('mobileError'),
+            'email': urlParams.get('emailError'),
+            'username': urlParams.get('usernameError'),
+            'password': urlParams.get('passwordError'),
+            'form': urlParams.get('formMessage')
+        };
+
+        clearErrors();
+        for (const [key, value] of Object.entries(errorMessages)) {
+            if (value) {
+                displayError(key, value);
+            }
+        }
+    </script>
 </body>
 </html>
